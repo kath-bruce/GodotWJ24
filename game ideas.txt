@@ -1,0 +1,39 @@
+family - pet the dog, secret passage, passage of time (not doing the quippy narrator)
+
+i think i like the whole "young person trying to find their way back home to their family" better
+
+pick a starting tribe - that tribe home will be the opposite side of the map
+
+need to survive between intermediate villages - you need enough things to barter with villages to get directions to next village, to safely stay at the village
+
+first can only forage for berries, then can fish, then can defend yourself against wild animals, then can hunt
+
+or maybe can only do one of these things depending on starting tribe, need to get people from other tribes to do other things
+
+this can be a prototype for the slayers guild game
+
+this isn't going to be a very deep simulation like unreal world 
+
+TODO
+
+- hexmap generation
+- player of given tribe moving between hexes
+- hexes have different terrain and features (so different possible actions)
+- action menu on tile
+- villages and interactions with them
+- other tribespeople in your party (with new accompanying possible actions)
+- needs depleting on movement
+- needs fulfilling on actions
+- special things to find - gives abilities/buffs/effects and used to barter
+- animal attacks (combat)
+- party member actions
+- triggering scenarios (party member is missing, party member is hurt)
+- inventory system
+- equipment system?
+- win and lose states
+- party member have back stories
+- conversation barks while moving 
+- event log
+- dog companions (that you can pet)
+- fog of war (so line of sight)
+- 
