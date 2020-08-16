@@ -27,7 +27,7 @@ TODO
 - special things to find - gives abilities/buffs/effects and used to barter
 - animal attacks (combat)
 - party member actions
-- triggering scenarios (party member is missing, party member is hurt)
+- triggering scenarios (party member is missing, party member is hurt or sick)
 - inventory system
 - equipment system?
 - win and lose states
