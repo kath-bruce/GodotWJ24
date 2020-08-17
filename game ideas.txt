@@ -17,6 +17,7 @@ this isn't going to be a very deep simulation like unreal world
 TODO
 
 - hexmap generation
+	- generate a map of neatly aligned hexes with a given height and width
 - player of given tribe moving between hexes
 - hexes have different terrain and features (so different possible actions)
 - action menu on tile

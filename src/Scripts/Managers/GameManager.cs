@@ -5,16 +5,16 @@ namespace Managers
 {
     public class GameManager : Node2D
     {
-        // Declare member variables here. Examples:
-        // private int a = 2;
-        // private string b = "text";
+        [Export]
+        public NodePath MapManagerNodePath { get; set; } = new NodePath();
 
-        private bool hasStarted = false;
+        public MapManager MapManager { get; private set; }
 
-        // Called when the node enters the scene tree for the first time.
-        public override void _Ready()
+        public override void _EnterTree()
         {
-            hasStarted = true;
+            MapManager = GetNode<MapManager>(MapManagerNodePath);
+            MapManager.InitialiseManager(this);
+
         }
 
         //  // Called every frame. 'delta' is the elapsed time since the previous frame.

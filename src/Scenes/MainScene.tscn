@@ -1,20 +1,23 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Scripts/Managers/GameManager.cs" type="Script" id=1]
-[ext_resource path="res://Sprites/HexBase.png" type="Texture" id=2]
+[ext_resource path="res://Scripts/Components/CameraComponent.cs" type="Script" id=2]
+[ext_resource path="res://Scripts/Managers/MapManager.cs" type="Script" id=3]
 
 [node name="Root" type="Node2D"]
 
 [node name="MainCamera" type="Camera2D" parent="."]
 current = true
-
-[node name="Line2D" type="Line2D" parent="."]
-position = Vector2( 199.941, 95.3516 )
-points = PoolVector2Array( 40.7422, 47.3618, 61.3784, 3.31136, 27.6461, 29.1066, -49.3428, 32.6783, 21.6933, 15.6137 )
+script = ExtResource( 2 )
 
 [node name="GameManager" type="Node2D" parent="."]
 script = ExtResource( 1 )
+MapManagerNodePath = NodePath("../MapManager")
 
-[node name="HexBase" type="Sprite" parent="."]
-position = Vector2( 7.15137, -11.919 )
-texture = ExtResource( 2 )
+[node name="MapManager" type="Node2D" parent="."]
+script = ExtResource( 3 )
+HexMapSize = 5
+HexComponentPath = "res://Scripts/Components/HexNode.tscn"
+MapNodePath = NodePath("../Map")
+
+[node name="Map" type="Node2D" parent="."]
