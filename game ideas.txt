@@ -14,10 +14,9 @@ this can be a prototype for the slayers guild game
 
 this isn't going to be a very deep simulation like unreal world 
 
-TODO
+FEATURES
 
 - hexmap generation
-	- generate a map of neatly aligned hexes with a given height and width
 - player of given tribe moving between hexes
 - hexes have different terrain and features (so different possible actions)
 - action menu on tile
@@ -37,4 +36,3 @@ TODO
 - event log
 - dog companions (that you can pet)
 - fog of war (so line of sight)
-- 

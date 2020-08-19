@@ -17,7 +17,7 @@ MapManagerNodePath = NodePath("../MapManager")
 [node name="MapManager" type="Node2D" parent="."]
 script = ExtResource( 3 )
 HexMapSize = 5
-HexComponentPath = "res://Scripts/Components/HexNode.tscn"
+HexComponentPath = "res://Scenes/Prefabs/HexNode.tscn"
 MapNodePath = NodePath("../Map")
 
 [node name="Map" type="Node2D" parent="."]

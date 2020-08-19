@@ -1,0 +1,82 @@
+TODO
+
+*map generation
+	- *draw a river to nearest mountain (that does not have a river associated already) from each lake/lake cluster
+	- named features (with accompanying text on map)
+	- add bog tiles adj to river tiles
+	- *make sure there is a route back home (starting point will be in centre of one quadrant, home will be opposite edge/corner of map - secrets "behind" player, possible "quest" items i.e., things needed to barter with tribes for specific things)
+		- if river or lakes block route make sure there is a suitable tribe that player can bargain with in order to cross lakes and rivers or even just some equipment somewhere along river, maybe player is forced to decide who goes with them from party but how would i detect that? maybe just mark that equipment spawned?
+		- if mountains block route home, just change one to hills
+	- *add tribes and paint tribelands onto map (maybe partly based on terrain)
+		- tribe relationships (allied, positive, neutral, negative, hostile) - maybe way to adjust difficulty
+	- *add villages
+	
+add compass to map hud (will be a static image)
+
+fog of war and los - not strictly essential, nice to have but zoom level can act as los/fog of war limitation
+
+*player and player movement
+	- *resource/need depletion on movement
+	- *day/night cycle
+	- move counter?
+	- party conversation barks
+	- *(if combat implemented) injuries (decreases hp)
+	- buffs and debuffs?
+	- *needs
+		- warmth
+		- thirst
+		- hunger
+
+*action menu on hex
+	- contextual dependent
+	- possible actions based on what tribes are in your party
+	- *needs/resources improve
+
+*village interaction
+	- choice menu
+
+*pop ups
+	- just info and ok button?
+
+*event log (scrollable, expandable?)
+
+party 
+	- *party members
+		- back story, name, *tribe
+	- *DOG
+	- *inventory
+	- equipment (can just flags set on party)
+	- actions on party members (converse, *pet dog)
+	- *accompanying ui screens
+	- *(if combat implemented) injuries (decreases hp)
+	- buffs and debuffs?
+	- relationships (maybe just with player - but possible to expand to relationships with other party members)
+		- decreases if needs neglected, if travelling with hostile tribe in party - may 
+	- *party members have needs as well
+
+world map (possibly manually chartered a la long dark)
+
+scenarios triggered
+	- party member missing
+	- party member hurt/ill
+	- combat - player can decide strategy?, maybe small event chain? - results in 
+
+*win and lose states
+	- *win by getting back to home village
+		- get a story of your journey?
+		- or at least a description of journey e.g., quick/long journey, how many people in party, state of health when you get back
+	- lose if player dies either by injuries, illness or *starvation/thirst/exposure
+	
+*art
+	- map art
+	- player art
+	- party member art
+	- ui art
+	
+menu
+
+tutorial (pop ups)
+	- tutorial click through - option on main menu
+
+sounds
+	- ??????????????????
