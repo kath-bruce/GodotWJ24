@@ -42,7 +42,7 @@ fog of war and los - not strictly essential, nice to have but zoom level can act
 
 party 
 	- *party members
-		- back story, name, *tribe
+		- back story, name, *tribe (only one allowed per tribe in your party, as only one needed)
 	- *DOG
 	- *inventory
 	- equipment (can just flags set on party)
@@ -66,6 +66,9 @@ scenarios triggered
 		- get a story of your journey?
 		- or at least a description of journey e.g., quick/long journey, how many people in party, state of health when you get back
 	- lose if player dies either by injuries, illness or *starvation/thirst/exposure
+	- screen to allow exit or restart
+	
+save game? (and therefore load game)
 	
 *art
 	- map art
@@ -73,7 +76,8 @@ scenarios triggered
 	- party member art
 	- ui art
 	
-menu
+main menu
+	- theme and wildcards? if i manage to submit to jam
 
 tutorial (pop ups)
 	- tutorial click through - option on main menu
