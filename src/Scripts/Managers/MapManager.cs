@@ -35,6 +35,17 @@ namespace Managers
             GenerateMapSprites();
         }
 
+        public Vector2 GetBottomRightCornerOfMapInPixelCoords()
+        {
+            HexComponent bottomRight = MapNode.GetChild<HexComponent>(MapNode.GetChildCount() - 1);
+
+            Sprite sprite = bottomRight.GetChild<Sprite>(0);
+
+            var size = sprite.Texture.GetSize(); //width and height in pixels
+
+            return new Vector2(bottomRight.Position.x + (size.x / 2f), bottomRight.Position.y + (size.y / 2f));
+        }
+
         private void GenerateMap()
         {
             var noise = new OpenSimplexNoise();

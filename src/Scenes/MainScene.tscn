@@ -8,7 +8,9 @@
 
 [node name="MainCamera" type="Camera2D" parent="."]
 current = true
+smoothing_enabled = true
 script = ExtResource( 2 )
+GameManagerNodePath = NodePath("../GameManager")
 
 [node name="GameManager" type="Node2D" parent="."]
 script = ExtResource( 1 )
