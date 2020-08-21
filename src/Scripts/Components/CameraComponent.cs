@@ -23,7 +23,7 @@ public class CameraComponent : Camera2D
 
         if (@event is InputEventMouseMotion move && isBeginDrag)
         {
-            Position += -move.Relative;
+            Position += -(move.Relative * Zoom);
         }
 
         if (@event is InputEventMouseButton wheel)
