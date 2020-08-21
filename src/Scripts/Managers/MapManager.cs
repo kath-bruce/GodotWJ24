@@ -53,7 +53,6 @@ namespace Managers
                 for (int j = 0; j < HexMapSize; j++)
                 {
                     var noiseSample = image.GetPixel(i, j).r; //noise is grayscale so only need r
-                    GD.Print($"noiseSample: {noiseSample}");
 
                     HexTerrain hexTerr = HexTerrain.NULL;
 

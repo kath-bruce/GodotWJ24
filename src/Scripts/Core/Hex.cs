@@ -7,8 +7,8 @@ namespace Core
 
     public class Hex
     {
-        public int Col { get; private set; }
-        public int Row { get; private set; }
+        public int Col { get; private set; } //x
+        public int Row { get; private set; } //y
 
         public HexTerrain Terrain { get; private set; }
         public HexFeatures Features { get; private set; }
