@@ -1,9 +1,13 @@
 using Godot;
 using System;
 
-public class CameraComponent : Node2D
+public class CameraComponent : Camera2D
 {
     private bool isBeginDrag = false;
+    private Camera2D camera;
+    private float zoomFactor = 0.1f;
+    private readonly Vector2 ZoomInLimit = new Vector2(0.5f, 0.5f);
+    private readonly Vector2 ZoomOutLimit = Vector2.One * 2f;
 
     public override void _Ready()
     {
@@ -20,6 +24,26 @@ public class CameraComponent : Node2D
         if (@event is InputEventMouseMotion move && isBeginDrag)
         {
             Position += -move.Relative;
+        }
+
+        if (@event is InputEventMouseButton wheel)
+        {
+            if (wheel.ButtonIndex == (int)ButtonList.WheelUp)
+            {
+                Zoom += new Vector2(zoomFactor, zoomFactor);
+                if (Zoom > ZoomOutLimit)
+                {
+                    Zoom = ZoomOutLimit;
+                }
+            }
+            else if (wheel.ButtonIndex == (int)ButtonList.WheelDown)
+            {
+                Zoom -= new Vector2(zoomFactor, zoomFactor);
+                if (Zoom < ZoomInLimit)
+                {
+                    Zoom = ZoomInLimit;
+                }
+            }
         }
     }
 }
