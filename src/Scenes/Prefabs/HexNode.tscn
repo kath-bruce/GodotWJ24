@@ -5,6 +5,55 @@
 
 [node name="Hex" type="Node2D"]
 script = ExtResource( 1 )
+LinesPath = NodePath("NeighbourIndicators")
 
 [node name="HexSprite" type="Sprite" parent="."]
 texture = ExtResource( 2 )
+
+[node name="NeighbourIndicators" type="Node2D" parent="."]
+
+[node name="NE" type="Line2D" parent="NeighbourIndicators"]
+visible = false
+points = PoolVector2Array( 49.7098, -25.4748, 0.0969543, -56.588 )
+default_color = Color( 1, 0, 0, 1 )
+
+[node name="E" type="Line2D" parent="NeighbourIndicators"]
+visible = false
+points = PoolVector2Array( 47.1872, -28.4179, 48.4485, 27.0812 )
+default_color = Color( 1, 0, 0, 1 )
+
+[node name="SE" type="Line2D" parent="NeighbourIndicators"]
+visible = false
+points = PoolVector2Array( 49.2894, 27.0812, 0.517395, 52.7286 )
+default_color = Color( 1, 0, 0, 1 )
+
+[node name="SW" type="Line2D" parent="NeighbourIndicators"]
+visible = false
+points = PoolVector2Array( -0.323486, 52.7286, -46.1523, 25.8199 )
+default_color = Color( 1, 0, 0, 1 )
+
+[node name="W" type="Line2D" parent="NeighbourIndicators"]
+visible = false
+points = PoolVector2Array( -47.4137, 26.6608, -47.4137, -26.3157 )
+default_color = Color( 1, 0, 0, 1 )
+
+[node name="NW" type="Line2D" parent="NeighbourIndicators"]
+visible = false
+points = PoolVector2Array( -47.8341, -27.9975, 0.0969543, -55.3266 )
+default_color = Color( 1, 0, 0, 1 )
+
+[node name="HexLabel" type="Label" parent="."]
+margin_left = -75.0
+margin_top = -40.0
+margin_right = 75.0
+margin_bottom = -15.0
+size_flags_horizontal = 4
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_as_outline = 1
+text = "twentycharacters1234"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}

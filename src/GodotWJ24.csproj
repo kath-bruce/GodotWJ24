@@ -61,6 +61,7 @@
     <Compile Include="Scripts\Components\CameraComponent.cs" />
     <Compile Include="Scripts\Components\HexComponent.cs" />
     <Compile Include="Scripts\Core\Hex.cs" />
+    <Compile Include="Scripts\Core\Lake.cs" />
     <Compile Include="Scripts\Managers\GameManager.cs" />
     <Compile Include="Scripts\Managers\ManagerBase.cs" />
     <Compile Include="Scripts\Managers\MapManager.cs" />

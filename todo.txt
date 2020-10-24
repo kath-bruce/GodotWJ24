@@ -18,6 +18,9 @@ fog of war and los - not strictly essential, nice to have but zoom level can act
 *player and player movement
 	- *resource/need depletion on movement
 	- *day/night cycle
+	- making camps and resting
+	- random encounters
+		- combat
 	- move counter?
 	- party conversation barks
 	- *(if combat implemented) injuries (decreases hp)
@@ -26,6 +29,26 @@ fog of war and los - not strictly essential, nice to have but zoom level can act
 		- warmth
 		- thirst
 		- hunger
+		
+combat
+	- with both animals and raiders
+	- realtime
+	- somewhat automatic
+	- only occurs in melee range and enemy is not in a trap
+	- maybe like the combat in sims medieval?
+		- choose general approach, can issue some commands, some rng but mostly equipment based?, basically a war of attrition
+		- has the tempo and narrative, almost, of a boxing match
+		
+*tribes - all tribes can gather and trade, tribes can make different things
+	- mountain tribe (can traverse mountains)
+	- river tribe (can cross rivers + lakes)
+	- forest tribe (can make traps and hunt for food)
+	- islander tribe?  (can dive and fish for food)
+		- would have to amend map generation for oceans and islands to occur (maybe around the edges?)
+	- cave tribe (can mine and craft intricate items)
+	- hill tribe (can make potions)
+	- raiders (tribeless and hostile)
+	- wanderers and hermits (tribeless and neutral)
 
 *action menu on hex
 	- contextual dependent
@@ -34,6 +57,16 @@ fog of war and los - not strictly essential, nice to have but zoom level can act
 
 *village interaction
 	- choice menu
+		- trade
+		- ask for directions to home, other tribal villages, named features
+	- quests to recruit a someone from a tribe
+		- maybe have to live in village (spend certain amount of time within village limits) for given amount of time
+		- get x amount of resource that another tribe has
+		- hunt/trap a mythical beast
+		- find missing person
+		- find artefact
+		- heal a village elder
+		- craft something worth x amount of resources
 
 *pop ups
 	- just info and ok button?
