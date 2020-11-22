@@ -19,6 +19,8 @@ namespace Core
 
     public class Hex
     {
+        public HexMap HexMap { get; private set; }
+
         public int Col { get; private set; } //x
         public int Row { get; private set; } //y
 
@@ -26,13 +28,14 @@ namespace Core
         public HexFeatures Features { get; private set; }
         public HexNeighbours Neighbours { get; private set; }
 
-        public Hex(int col, int row, HexTerrain terr, HexFeatures feat, HexNeighbours neighbours)
+        public Hex(HexMap map, int col, int row, HexTerrain terr, HexFeatures feat)
         {
+            HexMap = map;
             Col = col;
             Row = row;
             Terrain = terr;
             Features = feat;
-            Neighbours = neighbours;
+            Neighbours = HexMap.FindValidNeighbours(col, row);
         }
 
     }
