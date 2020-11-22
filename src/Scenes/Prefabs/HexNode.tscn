@@ -5,7 +5,9 @@
 
 [node name="Hex" type="Node2D"]
 script = ExtResource( 1 )
+SpritePath = NodePath("HexSprite")
 LinesPath = NodePath("NeighbourIndicators")
+LabelPath = NodePath("HexLabel")
 
 [node name="HexSprite" type="Sprite" parent="."]
 texture = ExtResource( 2 )

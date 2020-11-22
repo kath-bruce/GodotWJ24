@@ -14,10 +14,10 @@ namespace Managers
         private NodePath MapNodePath = new NodePath();
         [Export]
         public int HexMapSize { get; private set; }
-
-        private PackedScene HexComponent;
         public Node MapNode { get; private set; }
         public HexMap HexMap { get; private set; }
+        private PackedScene HexComponent;
+        private NodePath HexSpritePath;
         
         public override void InitialiseManager(GameManager gameManager)
         {
@@ -37,7 +37,7 @@ namespace Managers
         {
             HexComponent bottomRight = MapNode.GetChild<HexComponent>(MapNode.GetChildCount() - 1);
 
-            Sprite sprite = bottomRight.GetNode<Sprite>(new NodePath("HexSprite"));
+            Sprite sprite = bottomRight.GetNode<Sprite>(bottomRight.SpritePath);
 
             var size = sprite.Texture.GetSize(); //width and height in pixels
 
@@ -124,8 +124,7 @@ namespace Managers
                     var newHex = HexComponent.Instance() as HexComponent;
                     newHex.Hex = HexMap.Hexes[i][j];
 
-                    //don't like magic strings!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                    var sprite = newHex.GetNode<Sprite>(new NodePath("HexSprite"));
+                    var sprite = newHex.GetNode<Sprite>(newHex.SpritePath);
                     sprite.Modulate = GetHexColour(newHex.Hex.Terrain);
 
                     //change hex position

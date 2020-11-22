@@ -6,30 +6,18 @@ namespace Components
 {
     public class HexComponent : Node2D
     {
-        public const int MAX_LABEL_LENGTH = 20;
         public Hex Hex { get; set; }
+
+        [Export]
+        private NodePath LabelPath = new NodePath();
+        public const int MAX_LABEL_LENGTH = 20;
 
         [Export]
         private NodePath LinesPath = new NodePath();
         private Node Lines;
 
-        //called immediately after instancing
-        /*public override void _EnterTree()
-        {
-            GD.Print($"hex component {Hex.Col}, {Hex.Row} enter tree");
-            Lines = GetNode(LinesPath);
-            GD.Print($"lines node assigned?: {Lines != null}");
-
-        }*/
-
-        // Called when the node enters the scene tree for the first time.
-        //called after map generation has completed
-        /*public override void _Ready()
-        {
-            GD.Print($"hex component {Hex.Col}, {Hex.Row} ready");
-            Lines = GetNode(LinesPath);
-            GD.Print($"lines node assigned?: {Lines != null}");
-        }*/
+        [Export]
+        public NodePath SpritePath { get; set; } = new NodePath();
 
         public void SetNameOfFeature(string name)
         {
@@ -38,7 +26,7 @@ namespace Components
                 throw new ArgumentException($"Name of feature must be <= {MAX_LABEL_LENGTH} chars long", nameof(name));
             }
 
-            var label = GetNode<Label>("HexLabel");
+            var label = GetNode<Label>(LabelPath);
             label.Visible = true;
             label.Text = name;
         }
@@ -46,7 +34,7 @@ namespace Components
         public void EnableNeighbourIndicators()
         {
             Lines = GetNode(LinesPath);
-            
+
             if (Hex.Neighbours.HasFlag(HexNeighbours.NorthWest))
             {
                 Lines.GetNode<Line2D>(new NodePath("NW")).Visible = true;
