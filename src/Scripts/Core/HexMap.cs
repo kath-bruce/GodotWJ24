@@ -28,8 +28,13 @@ namespace Core
         private List<MountainRange> _mountainRanges = new List<MountainRange>();
         public ReadOnlyCollection<MountainRange> MountainRanges { get => _mountainRanges.AsReadOnly(); }
 
+        private List<River> _rivers = new List<River>();
+        public ReadOnlyCollection<River> Rivers { get => _rivers.AsReadOnly(); }
+
         public int HexMapSize { get; }
         public bool IsLocked { get; private set; } = false;
+
+        public const int HEXES_PER_RIVER = 4;
 
         public HexMap(int mapSize)
         {
@@ -46,9 +51,111 @@ namespace Core
 
         public void Lock()
         {
-            IsLocked = true;
             FindLakes();
             FindMountainRanges();
+            CreateRivers();
+            IsLocked = true;
+        }
+
+        private void CreateRivers()
+        {
+            //for loop each lake
+            foreach (var lake in _lakes)
+            {
+                var noOfRivers = (int)Math.Ceiling(lake.Hexes.Count / (float)HEXES_PER_RIVER);
+
+                for (int i = 0; i < noOfRivers; i++)
+                {
+                    var lakeHex = lake.Hexes[i * (HEXES_PER_RIVER - 1)];
+
+                    if (FindPathToNearestMountain(lakeHex, out List<Hex> river))
+                    {
+                        foreach (var riverHex in river)
+                        {
+                            riverHex.SetRiver();
+                        }
+
+                        _rivers.Add(new River(river, "RIVER"));
+                    }
+                }
+
+                //search for closest mountain range, keeping track of current path
+                //hills are impassable and if cannot find a way to a mountain then no river will be created
+                //if encounter tile with a river, stop and make recorded path of hexes all have rivers on them
+                //then the art can change based on what neighbours have a river
+            }
+        }
+
+        private bool FindPathToNearestMountain(Hex lakeHex, out List<Hex> river)
+        {
+            river = new List<Hex>();
+            //don't add lake hex
+            //rivers can only be on grassland
+
+            var currentPath = new Queue<Hex>();
+            //currentPath.Enqueue(lakeHex); //need to remember that last hex is lakehex so not part of river
+
+            var visitedHexes = new List<Hex>();
+            visitedHexes.Add(lakeHex);
+
+            var frontier = new Stack<Hex>();
+            frontier.Push(lakeHex);
+
+            while (frontier.Count > 0)
+            {
+                Hex current = frontier.Pop();
+                currentPath.Enqueue(current);
+
+                foreach (var neighbour in FindHexNeighbours(current))
+                {
+                    if (!visitedHexes.Contains(neighbour))
+                    {
+                        if (neighbour.Terrain == HexTerrain.GRASSLAND)
+                        {
+                            if (!neighbour.Features.HasFlag(HexFeatures.RIVER))
+                            {
+                                frontier.Push(neighbour);
+                                //currentPath.Push(neighbour);
+                            }
+                            else
+                            {
+                                //add to river using current path (except last in stack as that is lakehex)
+                                currentPath.Dequeue();
+                                while (currentPath.Count > 0)
+                                {
+                                    river.Add(currentPath.Dequeue());
+                                }
+                                if (river.Count < 1)
+                                {
+                                    return false;
+                                }
+                                return true;
+                            }
+                        }
+                        else if (neighbour.Terrain == HexTerrain.MOUNTAIN)
+                        {
+                            //add to river using current path (except last in stack as that is lakehex)
+                            currentPath.Dequeue();
+                            while (currentPath.Count > 0)
+                            {
+                                river.Add(currentPath.Dequeue());
+                            }
+                            if (river.Count < 1)
+                            {
+                                return false;
+                            }
+                            return true;
+                        }
+                    }
+                }
+
+                visitedHexes.Add(current);
+
+                //rewind
+                //
+            }
+
+            return false;
         }
 
         private void FindMountainRanges()
@@ -57,7 +164,7 @@ namespace Core
             {
                 for (int j = 0; j < _hexes[i].Count; j++)
                 {
-                    var hex =  _hexes[i][j];
+                    var hex = _hexes[i][j];
 
                     if (hex.Terrain == HexTerrain.MOUNTAIN && !IsHexAlreadyPartOfMountainRange(hex))
                     {
@@ -95,20 +202,22 @@ namespace Core
             var frontier = new Queue<Hex>();
             frontier.Enqueue(hex);
 
-            while(frontier.Count > 0)
+            while (frontier.Count > 0)
             {
                 Hex current = frontier.Dequeue();
 
                 foreach (var neighbour in FindHexNeighbours(current))
                 {
-                    if (!visitedHexes.Contains(neighbour) &&
-                     neighbour.Terrain == HexTerrain.MOUNTAIN)
+                    if (!visitedHexes.Contains(neighbour))
                     {
-                        mountainHexes.Add(neighbour);
-                        frontier.Enqueue(neighbour);
-                    }
+                        if (neighbour.Terrain == HexTerrain.MOUNTAIN)
+                        {
+                            mountainHexes.Add(neighbour);
+                            frontier.Enqueue(neighbour);
+                        }
 
-                    visitedHexes.Add(neighbour);
+                        visitedHexes.Add(neighbour);
+                    }
                 }
             }
 
@@ -168,14 +277,16 @@ namespace Core
 
                 foreach (var neighbour in FindHexNeighbours(current))
                 {
-                    if (!visitedHexes.Contains(neighbour) &&
-                     neighbour.Terrain == HexTerrain.LAKE)
+                    if (!visitedHexes.Contains(neighbour))
                     {
-                        lakeHexes.Add(neighbour);
-                        frontier.Enqueue(neighbour);
-                    }
+                        if (neighbour.Terrain == HexTerrain.LAKE)
+                        {
+                            lakeHexes.Add(neighbour);
+                            frontier.Enqueue(neighbour);
+                        }
 
-                    visitedHexes.Add(neighbour);
+                        visitedHexes.Add(neighbour);
+                    }
                 }
             }
 

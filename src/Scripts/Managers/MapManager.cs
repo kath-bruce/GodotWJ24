@@ -104,6 +104,8 @@ namespace Managers
             ChangeLakeNames();
 
             ChangeMountainNames();
+
+            ChangeRiverNames();
         }
 
         private void ChangeLakeNames()
@@ -126,6 +128,18 @@ namespace Managers
                 {
                     var hexComponent = GetHexComponent(hex);
                     hexComponent.SetNameOfFeature($"Mt. {i}");
+                }
+            }
+        }
+
+        private void ChangeRiverNames()
+        {
+            for (int i = 0; i < HexMap.Rivers.Count; i++)
+            {
+                foreach (var hex in HexMap.Rivers[i].Hexes)
+                {
+                    var hexComponent = GetHexComponent(hex);
+                    hexComponent.SetNameOfFeature($"River {i}");
                 }
             }
         }
@@ -177,9 +191,6 @@ namespace Managers
 
                 case HexTerrain.HILLS:
                     return Colors.YellowGreen;
-
-                case HexTerrain.BOG:
-                    return Colors.SaddleBrown;
 
                 case HexTerrain.GRASSLAND:
                     return Colors.LawnGreen;

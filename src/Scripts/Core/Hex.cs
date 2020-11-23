@@ -2,7 +2,7 @@ using System;
 
 namespace Core
 {
-    public enum HexTerrain { NULL = -1, MOUNTAIN, HILLS, GRASSLAND, BOG, LAKE }
+    public enum HexTerrain { NULL = -1, MOUNTAIN, HILLS, GRASSLAND, LAKE }
 
     [Flags]
     public enum HexFeatures 
@@ -10,10 +10,11 @@ namespace Core
         NONE = 0, 
         FOREST = 1, 
         RIVER = 2, 
-        VILLAGE = 4, 
-        CAMP = 8, 
-        CAVE = 16, 
-        SPECIAL = 32
+        BOG = 4,
+        VILLAGE = 8, 
+        CAMP = 16, 
+        CAVE = 32, 
+        SPECIAL = 64
     }
 
     [Flags]
@@ -49,5 +50,9 @@ namespace Core
             Neighbours = HexMap.FindValidNeighbours(col, row);
         }
 
+        public void SetRiver()
+        {
+            Features |= HexFeatures.RIVER;
+        }
     }
 }
