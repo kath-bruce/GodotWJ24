@@ -1,12 +1,29 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace Core
 {
     public class HexMap
     {
-        public List<List<Hex>> Hexes { get; private set; } = new List<List<Hex>>();
-        public List<Lake> Lakes { get; private set; } = new List<Lake>();
+        private List<List<Hex>> _hexes = new List<List<Hex>>();
+        public ReadOnlyCollection<ReadOnlyCollection<Hex>> Hexes
+        {
+            get
+            {
+                var readonlyHexes = new List<ReadOnlyCollection<Hex>>();
+
+                for (int i = 0; i < _hexes.Count; i++)
+                {
+                    readonlyHexes.Add(new ReadOnlyCollection<Hex>(_hexes[i]));
+                }
+
+                return readonlyHexes.AsReadOnly();
+            }
+        }
+
+        private List<Lake> _lakes = new List<Lake>();
+        public ReadOnlyCollection<Lake> Lakes { get => _lakes.AsReadOnly(); }
 
         public int HexMapSize { get; }
         public bool IsLocked { get; private set; } = false;
@@ -20,7 +37,7 @@ namespace Core
         {
             if (!IsLocked)
             {
-                Hexes.Add(col);
+                _hexes.Add(col);
             }
         }
 
@@ -32,16 +49,15 @@ namespace Core
 
         private void FindLakes()
         {
-            for (int i = 0; i < Hexes.Count; i++)
+            for (int i = 0; i < _hexes.Count; i++)
             {
-                for (int j = 0; j < Hexes[i].Count; j++)
+                for (int j = 0; j < _hexes[i].Count; j++)
                 {
-                    var hex = Hexes[i][j];
+                    var hex = _hexes[i][j];
 
                     if (hex.Terrain == HexTerrain.LAKE && !IsHexAlreadyPartOfLake(hex))
                     {
-                        Lakes.Add(new Lake(FindAllConnectedLakeHexes(hex, out string name), name));
-
+                        _lakes.Add(new Lake(FindAllConnectedLakeHexes(hex, out string name), name));
                     }
                     else
                     {
@@ -53,7 +69,7 @@ namespace Core
 
         private bool IsHexAlreadyPartOfLake(Hex hex)
         {
-            foreach (Lake lake in Lakes)
+            foreach (Lake lake in _lakes)
             {
                 if (lake.HasHex(hex))
                 {
@@ -109,54 +125,54 @@ namespace Core
             {
                 if (hex.Neighbours.HasFlag(HexNeighbours.NorthWest))
                 {
-                    neighbours.Add(Hexes[hex.Col - 1][hex.Row - 1]);
+                    neighbours.Add(_hexes[hex.Col - 1][hex.Row - 1]);
                 }
                 if (hex.Neighbours.HasFlag(HexNeighbours.NorthEast))
                 {
-                    neighbours.Add(Hexes[hex.Col][hex.Row - 1]);
+                    neighbours.Add(_hexes[hex.Col][hex.Row - 1]);
                 }
                 if (hex.Neighbours.HasFlag(HexNeighbours.East))
                 {
-                    neighbours.Add(Hexes[hex.Col + 1][hex.Row]);
+                    neighbours.Add(_hexes[hex.Col + 1][hex.Row]);
                 }
                 if (hex.Neighbours.HasFlag(HexNeighbours.SouthEast))
                 {
-                    neighbours.Add(Hexes[hex.Col][hex.Row + 1]);
+                    neighbours.Add(_hexes[hex.Col][hex.Row + 1]);
                 }
                 if (hex.Neighbours.HasFlag(HexNeighbours.SouthWest))
                 {
-                    neighbours.Add(Hexes[hex.Col - 1][hex.Row + 1]);
+                    neighbours.Add(_hexes[hex.Col - 1][hex.Row + 1]);
                 }
                 if (hex.Neighbours.HasFlag(HexNeighbours.West))
                 {
-                    neighbours.Add(Hexes[hex.Col - 1][hex.Row]);
+                    neighbours.Add(_hexes[hex.Col - 1][hex.Row]);
                 }
             }
             else
             {
                 if (hex.Neighbours.HasFlag(HexNeighbours.NorthWest))
                 {
-                    neighbours.Add(Hexes[hex.Col][hex.Row - 1]);
+                    neighbours.Add(_hexes[hex.Col][hex.Row - 1]);
                 }
                 if (hex.Neighbours.HasFlag(HexNeighbours.NorthEast))
                 {
-                    neighbours.Add(Hexes[hex.Col + 1][hex.Row - 1]);
+                    neighbours.Add(_hexes[hex.Col + 1][hex.Row - 1]);
                 }
                 if (hex.Neighbours.HasFlag(HexNeighbours.East))
                 {
-                    neighbours.Add(Hexes[hex.Col + 1][hex.Row]);
+                    neighbours.Add(_hexes[hex.Col + 1][hex.Row]);
                 }
                 if (hex.Neighbours.HasFlag(HexNeighbours.SouthEast))
                 {
-                    neighbours.Add(Hexes[hex.Col + 1][hex.Row + 1]);
+                    neighbours.Add(_hexes[hex.Col + 1][hex.Row + 1]);
                 }
                 if (hex.Neighbours.HasFlag(HexNeighbours.SouthWest))
                 {
-                    neighbours.Add(Hexes[hex.Col][hex.Row + 1]);
+                    neighbours.Add(_hexes[hex.Col][hex.Row + 1]);
                 }
                 if (hex.Neighbours.HasFlag(HexNeighbours.West))
                 {
-                    neighbours.Add(Hexes[hex.Col - 1][hex.Row]);
+                    neighbours.Add(_hexes[hex.Col - 1][hex.Row]);
                 }
             }
 
