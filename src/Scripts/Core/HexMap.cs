@@ -25,6 +25,9 @@ namespace Core
         private List<Lake> _lakes = new List<Lake>();
         public ReadOnlyCollection<Lake> Lakes { get => _lakes.AsReadOnly(); }
 
+        private List<MountainRange> _mountainRanges = new List<MountainRange>();
+        public ReadOnlyCollection<MountainRange> MountainRanges { get => _mountainRanges.AsReadOnly(); }
+
         public int HexMapSize { get; }
         public bool IsLocked { get; private set; } = false;
 
@@ -45,6 +48,74 @@ namespace Core
         {
             IsLocked = true;
             FindLakes();
+            FindMountainRanges();
+        }
+
+        private void FindMountainRanges()
+        {
+            for (int i = 0; i < _hexes.Count; i++)
+            {
+                for (int j = 0; j < _hexes[i].Count; j++)
+                {
+                    var hex =  _hexes[i][j];
+
+                    if (hex.Terrain == HexTerrain.MOUNTAIN && !IsHexAlreadyPartOfMountainRange(hex))
+                    {
+                        _mountainRanges.Add(new MountainRange(FindAllConnectedMountainHexes(hex, out string name), name));
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
+            }
+        }
+
+        private bool IsHexAlreadyPartOfMountainRange(Hex hex)
+        {
+            foreach (MountainRange mountainRange in _mountainRanges)
+            {
+                if (mountainRange.HasHex(hex))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private List<Hex> FindAllConnectedMountainHexes(Hex hex, out string name)
+        {
+            var mountainHexes = new List<Hex>();
+            mountainHexes.Add(hex);
+
+            var visitedHexes = new List<Hex>();
+            visitedHexes.Add(hex);
+
+            var frontier = new Queue<Hex>();
+            frontier.Enqueue(hex);
+
+            while(frontier.Count > 0)
+            {
+                Hex current = frontier.Dequeue();
+
+                foreach (var neighbour in FindHexNeighbours(current))
+                {
+                    if (!visitedHexes.Contains(neighbour) &&
+                     neighbour.Terrain == HexTerrain.MOUNTAIN)
+                    {
+                        mountainHexes.Add(neighbour);
+                        frontier.Enqueue(neighbour);
+                    }
+
+                    visitedHexes.Add(neighbour);
+                }
+            }
+
+            //after finding all connected lake hexes
+            //name it
+            name = "MOUNTAIN";
+            return mountainHexes;
         }
 
         private void FindLakes()

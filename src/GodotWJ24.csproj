@@ -63,6 +63,8 @@
     <Compile Include="Scripts\Core\Hex.cs" />
     <Compile Include="Scripts\Core\HexMap.cs" />
     <Compile Include="Scripts\Core\Lake.cs" />
+    <Compile Include="Scripts\Core\MountainRange.cs" />
+    <Compile Include="Scripts\Core\MultiHexFeature.cs" />
     <Compile Include="Scripts\Managers\GameManager.cs" />
     <Compile Include="Scripts\Managers\ManagerBase.cs" />
     <Compile Include="Scripts\Managers\MapManager.cs" />

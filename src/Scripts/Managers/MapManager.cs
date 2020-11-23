@@ -101,6 +101,8 @@ namespace Managers
             GenerateMapSprites();
 
             ChangeLakeNames();
+
+            ChangeMountainNames();
         }
 
         private void ChangeLakeNames()
@@ -111,6 +113,18 @@ namespace Managers
                 {
                     var hexComponent = GetHexComponent(hex);
                     hexComponent.SetNameOfFeature($"Lake {i}");
+                }
+            }
+        }
+
+        private void ChangeMountainNames()
+        {
+            for (int i = 0; i < HexMap.MountainRanges.Count; i++)
+            {
+                foreach (var hex in HexMap.MountainRanges[i].Hexes)
+                {
+                    var hexComponent = GetHexComponent(hex);
+                    hexComponent.SetNameOfFeature($"Mt. {i}");
                 }
             }
         }
