@@ -11,6 +11,11 @@ namespace Core
 
         public MultiHexFeature(List<Hex> hexes, string name)
         {
+            if (hexes.Count < 1)
+            {
+                throw new System.ArgumentException("Must have at least 1 hex", nameof(hexes));
+            }
+
             _hexes = hexes;
             Name = name;
         }
@@ -27,5 +32,5 @@ namespace Core
 
             return false;
         }
-    } 
+    }
 }

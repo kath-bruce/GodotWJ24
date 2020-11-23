@@ -3,7 +3,18 @@ using System;
 namespace Core
 {
     public enum HexTerrain { NULL = -1, MOUNTAIN, HILLS, GRASSLAND, BOG, LAKE }
-    public enum HexFeatures { NONE = 0, FOREST, RIVER, VILLAGE, CAMP, CAVE, SPECIAL }
+
+    [Flags]
+    public enum HexFeatures 
+    { 
+        NONE = 0, 
+        FOREST = 1, 
+        RIVER = 2, 
+        VILLAGE = 4, 
+        CAMP = 8, 
+        CAVE = 16, 
+        SPECIAL = 32
+    }
 
     [Flags]
     public enum HexNeighbours

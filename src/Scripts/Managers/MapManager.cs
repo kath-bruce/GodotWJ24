@@ -18,6 +18,7 @@ namespace Managers
         public HexMap HexMap { get; private set; }
         private PackedScene HexComponent;
         private NodePath HexSpritePath;
+        private Dictionary<Hex, HexComponent> HexComponentDict = new Dictionary<Hex, HexComponent>();
         
         public override void InitialiseManager(GameManager gameManager)
         {
@@ -151,9 +152,11 @@ namespace Managers
                     }
                     newHex.Position = pos + (spriteSize / 2f);
                     newHex.Name = $"Hex({i},{j})";
+
                     //newHex.SetNameOfFeature(newHex.Name);
                     //newHex.EnableNeighbourIndicators();
 
+                    HexComponentDict.Add(newHex.Hex, newHex);
                     MapNode.AddChild(newHex, true);
                 }
             }
@@ -161,7 +164,7 @@ namespace Managers
 
         private HexComponent GetHexComponent(Hex hex)
         {
-            return MapNode.GetNode<HexComponent>(new NodePath($"Hex({hex.Col},{hex.Row})"));
+            return HexComponentDict[hex];
         }
 
         //there's probably a better of doing this but that's a problem for Tomorrow's Kathleen
