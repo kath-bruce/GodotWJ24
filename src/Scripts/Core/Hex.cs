@@ -2,8 +2,8 @@ using System;
 
 namespace Core
 {
-    public enum HexTerrain { NULL = -1, MOUNTAIN, HILLS, GRASSLAND, BOG, RIVER, LAKE }
-    public enum HexFeatures { NONE = 0, FOREST, VILLAGE, CAMP, CAVE, SPECIAL }
+    public enum HexTerrain { NULL = -1, MOUNTAIN, HILLS, GRASSLAND, BOG, LAKE }
+    public enum HexFeatures { NONE = 0, FOREST, RIVER, VILLAGE, CAMP, CAVE, SPECIAL }
 
     [Flags]
     public enum HexNeighbours

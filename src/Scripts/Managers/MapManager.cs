@@ -181,9 +181,6 @@ namespace Managers
                 case HexTerrain.GRASSLAND:
                     return Colors.LawnGreen;
 
-                case HexTerrain.RIVER:
-                    return Colors.AliceBlue;
-
                 case HexTerrain.LAKE:
                     return Colors.DeepSkyBlue;
 
