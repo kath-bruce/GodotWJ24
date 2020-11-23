@@ -98,12 +98,12 @@ namespace Core
             var visitedHexes = new List<Hex>();
             visitedHexes.Add(lakeHex);
 
-            var frontier = new Stack<Hex>();
-            frontier.Push(lakeHex);
+            var frontier = new Queue<Hex>();
+            frontier.Enqueue(lakeHex);
 
             while (frontier.Count > 0)
             {
-                Hex current = frontier.Pop();
+                Hex current = frontier.Dequeue();
                 currentPath.Enqueue(current);
 
                 foreach (var neighbour in FindHexNeighbours(current))
@@ -114,7 +114,7 @@ namespace Core
                         {
                             if (!neighbour.Features.HasFlag(HexFeatures.RIVER))
                             {
-                                frontier.Push(neighbour);
+                                frontier.Enqueue(neighbour);
                                 //currentPath.Push(neighbour);
                             }
                             else
