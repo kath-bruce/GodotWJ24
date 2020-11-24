@@ -136,10 +136,10 @@ namespace Managers
         {
             for (int i = 0; i < HexMap.Rivers.Count; i++)
             {
-                foreach (var hex in HexMap.Rivers[i].Hexes)
+                for(int j = 0; j < HexMap.Rivers[i].Hexes.Count; j++)
                 {
-                    var hexComponent = GetHexComponent(hex);
-                    hexComponent.SetNameOfFeature($"River {i}");
+                    var hexComponent = GetHexComponent(HexMap.Rivers[i].Hexes[j]);
+                    hexComponent.SetNameOfFeature($"River {i}, {j}");
                 }
             }
         }

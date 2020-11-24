@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Core
 {
@@ -68,7 +69,9 @@ namespace Core
                 {
                     var lakeHex = lake.Hexes[i * (HEXES_PER_RIVER - 1)];
 
-                    if (FindPathToNearestMountain(lakeHex, out List<Hex> river))
+                    var mountain = FindNearestMountain(lakeHex);
+
+                    if (FindPathToNearestMountain(lakeHex, mountain, out List<Hex> river))
                     {
                         foreach (var riverHex in river)
                         {
@@ -86,14 +89,83 @@ namespace Core
             }
         }
 
-        private bool FindPathToNearestMountain(Hex lakeHex, out List<Hex> river)
+        private bool IsMountainReachable(Hex lakeStart, Hex mountainEnd)
+        {
+            var visitedHexes = new List<Hex>();
+            visitedHexes.Add(lakeStart);
+
+            var frontier = new Queue<Hex>();
+            frontier.Enqueue(lakeStart);
+
+            while (frontier.Count > 0)
+            {
+                Hex current = frontier.Dequeue();
+
+                foreach (var neighbour in FindHexNeighbours(current))
+                {
+                    if (!visitedHexes.Contains(neighbour))
+                    {
+                        if (neighbour.Terrain == HexTerrain.GRASSLAND)
+                        {
+                            frontier.Enqueue(neighbour);
+                        }
+                        else if (neighbour == mountainEnd)
+                        {
+                            return true;
+                        }
+                    }
+                }
+
+                visitedHexes.Add(current);
+            }
+
+            return false;
+        }
+
+        private Hex FindNearestMountain(Hex start)
+        {
+            var visitedHexes = new List<Hex>();
+            visitedHexes.Add(start);
+
+            var frontier = new Queue<Hex>();
+            frontier.Enqueue(start);
+
+            while (frontier.Count > 0)
+            {
+                Hex current = frontier.Dequeue();
+
+                foreach (var neighbour in FindHexNeighbours(current))
+                {
+                    if (!visitedHexes.Contains(neighbour))
+                    {
+                        if (neighbour.Terrain == HexTerrain.MOUNTAIN && IsMountainReachable(start, neighbour))
+                        {
+                            return neighbour;
+                        }
+                        else
+                        {
+                            visitedHexes.Add(neighbour);
+                            frontier.Enqueue(neighbour);
+                        }
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        private bool FindPathToNearestMountain(Hex lakeHex, Hex mountain, out List<Hex> river)
         {
             river = new List<Hex>();
             //don't add lake hex
             //rivers can only be on grassland
 
-            var currentPath = new Queue<Hex>();
-            //currentPath.Enqueue(lakeHex); //need to remember that last hex is lakehex so not part of river
+            if (mountain == null)
+            {
+                return false;
+            }
+
+            var cameFrom = new Dictionary<Hex, Hex>();
 
             var visitedHexes = new List<Hex>();
             visitedHexes.Add(lakeHex);
@@ -104,7 +176,6 @@ namespace Core
             while (frontier.Count > 0)
             {
                 Hex current = frontier.Dequeue();
-                currentPath.Enqueue(current);
 
                 foreach (var neighbour in FindHexNeighbours(current))
                 {
@@ -115,44 +186,56 @@ namespace Core
                             if (!neighbour.Features.HasFlag(HexFeatures.RIVER))
                             {
                                 frontier.Enqueue(neighbour);
-                                //currentPath.Push(neighbour);
+                                frontier = new Queue<Hex>(frontier.AsQueryable().OrderBy<Hex, double>((h) =>
+
+                                    Math.Abs(Math.Sqrt((h.Col - mountain.Col) * (h.Col - mountain.Col)
+                                    + (h.Row - mountain.Row) * (h.Row - mountain.Row)))
+
+                                ));
+                                cameFrom[neighbour] = current;
                             }
                             else
                             {
                                 //add to river using current path (except last in stack as that is lakehex)
-                                currentPath.Dequeue();
-                                while (currentPath.Count > 0)
+                                Hex prevHex = current;
+
+                                while (prevHex != lakeHex)
                                 {
-                                    river.Add(currentPath.Dequeue());
+                                    river.Add(prevHex);
+                                    prevHex = cameFrom[prevHex];
                                 }
+
                                 if (river.Count < 1)
                                 {
                                     return false;
                                 }
+
                                 return true;
                             }
                         }
-                        else if (neighbour.Terrain == HexTerrain.MOUNTAIN)
+                        else if (neighbour.Terrain == HexTerrain.MOUNTAIN)// || neighbour.Terrain == HexTerrain.LAKE)
                         {
                             //add to river using current path (except last in stack as that is lakehex)
-                            currentPath.Dequeue();
-                            while (currentPath.Count > 0)
+
+                            Hex prevHex = current;
+
+                            while (prevHex != lakeHex)
                             {
-                                river.Add(currentPath.Dequeue());
+                                river.Add(prevHex);
+                                prevHex = cameFrom[prevHex];
                             }
+
                             if (river.Count < 1)
                             {
                                 return false;
                             }
+
                             return true;
                         }
                     }
                 }
 
                 visitedHexes.Add(current);
-
-                //rewind
-                //
             }
 
             return false;
