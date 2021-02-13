@@ -69,29 +69,34 @@ namespace Managers
                     var noiseSample = image.GetPixel(i, j).r; //noise is grayscale so only need r
 
                     HexTerrain hexTerr = HexTerrain.NULL;
+                    int cost = 1;
 
                     if (noiseSample >= 0.7f)
                     {
                         //mountains
                         hexTerr = HexTerrain.MOUNTAIN;
+                        cost = 5;
                     }
                     else if (noiseSample >= 0.5f)
                     {
                         //hills
                         hexTerr = HexTerrain.HILLS;
+                        cost = 3;
                     }
                     else if (noiseSample >= 0.3f)
                     {
                         //grassland
                         hexTerr = HexTerrain.GRASSLAND;
+                        cost = 2;
                     }
                     else
                     {
                         //lake
                         hexTerr = HexTerrain.LAKE;
+                        cost = 3;
                     }
 
-                    newCol.Add(new Hex(HexMap, i, j, hexTerr, HexFeatures.NONE));
+                    newCol.Add(new Hex(HexMap, i, j, cost, hexTerr, HexFeatures.NONE));
                 }
 
                 HexMap.AddColumn(newCol);
