@@ -82,8 +82,6 @@ namespace Core
                     }
                 }
 
-                //search for closest mountain range, keeping track of current path
-                //hills are impassable and if cannot find a way to a mountain then no river will be created
                 //if encounter tile with a river, stop and make recorded path of hexes all have rivers on them
                 //then the art can change based on what neighbours have a river
             }
@@ -153,7 +151,8 @@ namespace Core
                         //if not mountain goal or reached another river
                         //expand frontier
                         if (neighbour != mountain 
-                        && !neighbour.Features.HasFlag(HexFeatures.RIVER))
+                        && !neighbour.Features.HasFlag(HexFeatures.RIVER)
+                        && neighbour.Terrain != HexTerrain.LAKE)
                         {
                             frontier.Enqueue(neighbour);
                             frontier = new Queue<Hex>(frontier.AsQueryable().OrderBy<Hex, double>((h) =>
@@ -169,6 +168,12 @@ namespace Core
                         }
                         else
                         {
+                            if (neighbour.Terrain == HexTerrain.LAKE && neighbour.ParentMultiHexFeature == lakeHex.ParentMultiHexFeature)
+                            {
+                                //if neighbour is part of the same like as the start hex, just continue
+                                continue;
+                            }
+
                             //construct river path
 
                             //add to river using current path (except last in stack as that is lakehex)

@@ -17,6 +17,12 @@ namespace Core
             }
 
             _hexes = hexes;
+            
+            foreach (var hex in _hexes)
+            {
+                hex.SetParentMultiHexFeature(this);
+            }
+
             Name = name;
         }
 

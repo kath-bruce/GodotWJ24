@@ -40,6 +40,7 @@ namespace Core
         public HexTerrain Terrain { get; private set; }
         public HexFeatures Features { get; private set; }
         public HexNeighbours Neighbours { get; private set; }
+        public MultiHexFeature ParentMultiHexFeature { get; private set; }
 
         public Hex(HexMap map, int col, int row, int cost, HexTerrain terr, HexFeatures feat)
         {
@@ -54,6 +55,11 @@ namespace Core
         public void SetRiver()
         {
             Features |= HexFeatures.RIVER;
+        }
+
+        public void SetParentMultiHexFeature(MultiHexFeature feature)
+        {
+            ParentMultiHexFeature = feature;
         }
     }
 }
