@@ -73,17 +73,32 @@ namespace Core
 
                     if (FindPathToNearestMountain(lakeHex, mountain, out List<Hex> river))
                     {
-                        foreach (var riverHex in river)
+                        for (int j = 0; j < river.Count; j++)
                         {
-                            riverHex.SetRiver();
+                            river[j].SetRiver();
+
+                            //rivers 'start' at the mountain or another lake/river
+                            //(river source dir is already set when finding the path of the river)
+                            //and 'end' at the lake
+
+                            if (j != 0)
+                            {
+                                river[j].SetRiverSourceDirections(FindDirectionBetweenNeighbours(river[j-1], river[j]));
+                            }
+
+                            if (j == river.Count - 1)
+                            {
+                                river[j].SetRiverTargetDirection(FindDirectionBetweenNeighbours(lakeHex, river[j]));
+                            }
+                            else
+                            {
+                                river[j].SetRiverTargetDirection(FindDirectionBetweenNeighbours(river[j+1], river[j]));
+                            }
                         }
 
                         _rivers.Add(new River(river, "RIVER"));
                     }
                 }
-
-                //if encounter tile with a river, stop and make recorded path of hexes all have rivers on them
-                //then the art can change based on what neighbours have a river
             }
         }
 
@@ -147,10 +162,10 @@ namespace Core
                     if (!costSoFar.ContainsKey(neighbour) || newCost < costSoFar[neighbour])
                     {
                         costSoFar[neighbour] = newCost;
-                        
-                        //if not mountain goal or reached another river
+
+                        //if not mountain goal or reached another river or reached another lake
                         //expand frontier
-                        if (neighbour != mountain 
+                        if (neighbour != mountain
                         && !neighbour.Features.HasFlag(HexFeatures.RIVER)
                         && neighbour.Terrain != HexTerrain.LAKE)
                         {
@@ -173,6 +188,16 @@ namespace Core
                                 //if neighbour is part of the same like as the start hex, just continue
                                 continue;
                             }
+
+                            //if ending at another river, set the river source to direction from current
+                            if (neighbour.Features.HasFlag(HexFeatures.RIVER))
+                            {
+                                //find the direction between neighbour and current
+                                neighbour.SetRiverSourceDirections(FindDirectionBetweenNeighbours(current, neighbour));
+                            }
+
+                            //set source direction of first river tile (which maybe a mountain, another river or another lake)
+                            current.SetRiverSourceDirections(FindDirectionBetweenNeighbours(neighbour, current));
 
                             //construct river path
 
@@ -335,6 +360,69 @@ namespace Core
             //name it
             name = "LAKE";
             return lakeHexes;
+        }
+
+        private HexNeighbours FindDirectionBetweenNeighbours(Hex to, Hex from)
+        {
+            int colDiff = to.Col - from.Col;
+            int rowDiff = to.Row - from.Row;
+
+            if (from.Row % 2 == 0)
+            {
+                if (colDiff == -1 && rowDiff == -1)
+                {
+                    return HexNeighbours.NorthWest;
+                }
+                if (colDiff == 0 && rowDiff == -1)
+                {
+                    return HexNeighbours.NorthEast;
+                }
+                if (colDiff == 1 && rowDiff == 0)
+                {
+                    return HexNeighbours.East;
+                }
+                if (colDiff == 0 && rowDiff == 1)
+                {
+                    return HexNeighbours.SouthEast;
+                }
+                if (colDiff == -1 && rowDiff == 1)
+                {
+                    return HexNeighbours.SouthWest;
+                }
+                if (colDiff == -1 && rowDiff == 0)
+                {
+                    return HexNeighbours.West;
+                }
+            }
+            else
+            {
+                if (colDiff == 0 && rowDiff == -1)
+                {
+                    return HexNeighbours.NorthWest;
+                }
+                if (colDiff == 1 && rowDiff == -1)
+                {
+                    return HexNeighbours.NorthEast;
+                }
+                if (colDiff == 1 && rowDiff == 0)
+                {
+                    return HexNeighbours.East;
+                }
+                if (colDiff == 1 && rowDiff == 1)
+                {
+                    return HexNeighbours.SouthEast;
+                }
+                if (colDiff == 0 && rowDiff == 1)
+                {
+                    return HexNeighbours.SouthWest;
+                }
+                if (colDiff == -1 && rowDiff == 0)
+                {
+                    return HexNeighbours.West;
+                }
+            }
+
+            return HexNeighbours.None;
         }
 
         private List<Hex> FindHexNeighbours(Hex hex)

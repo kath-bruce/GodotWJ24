@@ -110,7 +110,7 @@ namespace Managers
 
             ChangeMountainNames();
 
-            ChangeRiverNames();
+            ChangeRiverNamesAndDisplayRiverSprites();
         }
 
         private void ChangeLakeNames()
@@ -137,14 +137,15 @@ namespace Managers
             }
         }
 
-        private void ChangeRiverNames()
+        private void ChangeRiverNamesAndDisplayRiverSprites()
         {
             for (int i = 0; i < HexMap.Rivers.Count; i++)
             {
                 for(int j = 0; j < HexMap.Rivers[i].Hexes.Count; j++)
                 {
                     var hexComponent = GetHexComponent(HexMap.Rivers[i].Hexes[j]);
-                    hexComponent.SetNameOfFeature($"River {i}, {j}");
+                    //hexComponent.SetNameOfFeature($"River {i}, {j}");
+                    hexComponent.SetRiverSprites();
                 }
             }
         }

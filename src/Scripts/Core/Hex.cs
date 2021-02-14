@@ -41,6 +41,8 @@ namespace Core
         public HexFeatures Features { get; private set; }
         public HexNeighbours Neighbours { get; private set; }
         public MultiHexFeature ParentMultiHexFeature { get; private set; }
+        public HexNeighbours RiverSourceDirections { get; private set; }
+        public HexNeighbours RiverTargetDirection { get; private set; }
 
         public Hex(HexMap map, int col, int row, int cost, HexTerrain terr, HexFeatures feat)
         {
@@ -60,6 +62,22 @@ namespace Core
         public void SetParentMultiHexFeature(MultiHexFeature feature)
         {
             ParentMultiHexFeature = feature;
+        }
+
+        public void SetRiverSourceDirections(HexNeighbours fromDirs)
+        {
+            RiverSourceDirections |= fromDirs;
+        }
+
+        public void SetRiverTargetDirection(HexNeighbours toDir)
+        {
+            int dir = (int)toDir;
+
+            //only accept if target direction is only one value
+            if (dir != 0 && (dir & (dir - 1)) == 0)
+            {
+                RiverTargetDirection = toDir;
+            }
         }
     }
 }

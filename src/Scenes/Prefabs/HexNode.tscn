@@ -1,13 +1,15 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Scripts/Components/HexComponent.cs" type="Script" id=1]
 [ext_resource path="res://Sprites/HexBaseFilled.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/Rivers.png" type="Texture" id=3]
 
 [node name="Hex" type="Node2D"]
 script = ExtResource( 1 )
 SpritePath = NodePath("HexSprite")
-LinesPath = NodePath("NeighbourIndicators")
+RiverSpritePath = NodePath("RiverSprites")
 LabelPath = NodePath("HexLabel")
+LinesPath = NodePath("NeighbourIndicators")
 
 [node name="HexSprite" type="Sprite" parent="."]
 texture = ExtResource( 2 )
@@ -43,6 +45,37 @@ default_color = Color( 1, 0, 0, 1 )
 visible = false
 points = PoolVector2Array( -47.8341, -27.9975, 0.0969543, -55.3266 )
 default_color = Color( 1, 0, 0, 1 )
+
+[node name="RiverSprites" type="Node2D" parent="."]
+
+[node name="W" type="Sprite" parent="RiverSprites"]
+visible = false
+texture = ExtResource( 3 )
+
+[node name="NW" type="Sprite" parent="RiverSprites"]
+visible = false
+rotation = 1.0472
+texture = ExtResource( 3 )
+
+[node name="NE" type="Sprite" parent="RiverSprites"]
+visible = false
+rotation = 2.0944
+texture = ExtResource( 3 )
+
+[node name="E" type="Sprite" parent="RiverSprites"]
+visible = false
+rotation = 3.14159
+texture = ExtResource( 3 )
+
+[node name="SE" type="Sprite" parent="RiverSprites"]
+visible = false
+rotation = 4.18879
+texture = ExtResource( 3 )
+
+[node name="SW" type="Sprite" parent="RiverSprites"]
+visible = false
+rotation = 5.23599
+texture = ExtResource( 3 )
 
 [node name="HexLabel" type="Label" parent="."]
 visible = false
